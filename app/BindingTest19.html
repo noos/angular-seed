@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en-US" ng-app="bindingTest">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/app.css"/>
+    <script src="/js/jquery.js" type="text/javascript"></script>
+    <script src="/js/bootstrap.js" type="text/javascript"></script>
+    <script src="/lib/angular/angular.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        angular.module('bindingTest',[])
+            .controller('BindingController',function($scope){
+                    $scope.title = "Angular Bootcamp";
+                    $scope.imgUrl = "//lorempixel.com/940/200";
+                    $scope.people = [
+                        {
+                            name: 'Abe',
+                            age: 100
+                        }, {
+                            name: 'Ben',
+                            age: 20
+                        }
+                    ];
+                    $scope.sortby = "name";
+            })
+            .filter('ageToDesc',function(){
+                    return function(age){
+                        if (age<40) {
+                            return "good";
+                        } else {
+                            return "too old";
+                        };
+                    };
+            })
+    </script>
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="navbar">
+            <div class="navbar-inner">
+                <ul class="nav">
+                    <li><a class="brand" href="#">Hello</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div ng-controller="BindingController" style="padding-left:20px;padding-right:20px">
+
+            <img ng-src="{{ imgUrl }}"  />
+
+            <div class="row">
+                <div class="span12">
+                    <h2>{{ title }}</h2>
+                </div>
+            </div>
+
+            <hr/>
+
+            <h3>Sessions</h3>
+
+            Sort By:
+            <select class="input-small" ng-model="sortby">
+                <option value="name">Name</option>
+                <option value="age">Age</option>
+            </select>
+
+            Show:
+            <select class="input-medium" ng-model="query.name">
+                <option value="">All</option>
+                <option value="abe">Abe</option>
+                <option value="ben">Ben</option>
+            </select>
+
+            <ul class="thumbnails">
+                <li ng-repeat="person in people | orderBy:sortby | filter:query">
+                    <div class="row">
+                        <div class="well span0 text-center">
+                            <div ng-click="upVoteperson"><i class="icon-chevron-up"></i></div>
+                            <div class="badge">{{ person.age }}</div>
+                            <div ng-click="downVoteperson"><i class="icon-chevron-down"></i></div>
+                        </div>
+
+                        <div class="well span9">
+                            <h4>{{ person.name }}</h4>
+                            <p>{{ person.age|ageToDesc }}</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+
+
+
+        </div>
+
+
+    </div>
+
+</body>
+</html>
