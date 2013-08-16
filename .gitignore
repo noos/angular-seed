@@ -1,2 +1,5 @@
 logs/*
 !.gitkeep
+.idea/*
+i.idea
+
